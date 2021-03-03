@@ -6,12 +6,34 @@ console.log('connected...')
 //3. count instances of each unique word
 //4. output words and their amount of times that word appears
 
+let xhr = new XMLHttpRequest();
 
+let parseResponse = function (input) {
+    let noPunctuation = input.replace(/[.,\/#!$%\^&\*;:{}=\_`~()]?/g,"").replace(/-/g, " ");
+    let splitArr = splitString(noPunctuation)
+    console.log(splitArr)
+}
 
+xhr.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        document.getElementById('test').innerHTML = this.responseText
+        parseResponse(this.responseText)
+    }
+};
 
+xhr.open('GET', 'https://class-demo-files-and-resources.s3.amazonaws.com/Green-Eggs-And-Ham.txt', true);
 
+xhr.send()
 
+let words = {};
 
+function splitString (string) {
+    let arr = string.split(" ")
+    for (i = 0; i<arr.length; i++) {
+        arr[i] = arr[i].split("\n")
+    }
+    return arr
+}
 
 
 
