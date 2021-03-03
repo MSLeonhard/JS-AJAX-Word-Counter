@@ -30,35 +30,8 @@ let words = {};
 
 function splitString (string) {
     let arr = string.split(" ")
-    // for (i = 0; i<arr.length; i++) {
-    //     arr[i] = arr[i].split("\n")
-    // }
     return arr
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //part 2 steps
