@@ -9,9 +9,10 @@ console.log('connected...')
 let xhr = new XMLHttpRequest();
 
 let parseResponse = function (input) {
-    let noPunctuation = input.replace(/[.,\/#!$%\^&\*;:{}=\_`~()]?/g,"").replace(/-/g, " ");
+    let noPunctuation = input.replace(/[.,?\/#!$%\^&\*;:{}=\_`~()]/g,"").replace(/-/g, " ").replace(/\n/g, " ");
     let splitArr = splitString(noPunctuation)
-    console.log(splitArr)
+    let removeEmpty = splitArr.filter(e => e)
+    console.log(removeEmpty)
 }
 
 xhr.onreadystatechange = function() {
@@ -29,9 +30,9 @@ let words = {};
 
 function splitString (string) {
     let arr = string.split(" ")
-    for (i = 0; i<arr.length; i++) {
-        arr[i] = arr[i].split("\n")
-    }
+    // for (i = 0; i<arr.length; i++) {
+    //     arr[i] = arr[i].split("\n")
+    // }
     return arr
 }
 
