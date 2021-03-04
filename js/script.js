@@ -12,12 +12,25 @@ xhr.open('GET', 'https://class-demo-files-and-resources.s3.amazonaws.com/Green-E
 
 xhr.send()
 
+let words = {
+}
+
 let parseResponse = function (input) {
+    //removes punctuation
     let noPunctuation = input.replace(/[.,?\/#!$%\^&\*;:{}=\_`~()]/g,"").replace(/-/g, " ").replace(/\n/g, " ");
+    
+    //makes all words uppercase for comparison
     let makeUniform = noPunctuation.toUpperCase()
+    
+    //splits words into an array
     let splitArr = splitString(makeUniform)
-    let removeEmpty = splitArr.filter(e => e) //total word count
-    console.log(removeEmpty)
+    
+    //removes empty elements from array
+    let removeEmpty = splitArr.filter(e => e)
+
+    document.getElementById('length').innerHTML = `The Length of This Document is <strong>${removeEmpty.length}</strong> words.`
+    
+    //creates object with key value pairs
     for (i = 0; i<removeEmpty.length; i++) {
         if (words[removeEmpty[i]]) {
             words[removeEmpty[i]]++
@@ -25,6 +38,13 @@ let parseResponse = function (input) {
             words[removeEmpty[i]] = 1
         }
     }
+    
+    //prints to the webpage
+    document.getElementById('unique').innerHTML = `The Number of Unique Words in This Document is <strong>${Object.keys(words).length}</strong>.`
+
+    document.getElementById('common').innerHTML = `The Most Frequently Occurring Word Occurs <strong>${maxValue(words)}</strong> times.`
+
+    document.getElementById('rare').innerHTML = `The Least Frequently Occurring Word Occurs <strong>${minValue(words)}</strong> time(s).`
 }
 
 xhr.onreadystatechange = function() {
@@ -33,13 +53,41 @@ xhr.onreadystatechange = function() {
     }
 };
 
+//splits string by spaces
 function splitString (string) {
     let arr = string.split(" ")
     return arr
 }
 
-let words = {
+//finds max value
+let maxValue = function (object) {
+    let high = 0
+    let values = Object.values(object)
+    for (i = 0; i<values.length; i++) {
+        if (values[i] > high) {
+            high = values[i]
+        }
+    }
+    return high
+} 
+//finds min value
+let minValue = function (object) {
+    let low = Number.MAX_VALUE
+    let values = Object.values(object)
+    for (i = 0; i<values.length; i++) {
+        if (values[i] < low) {
+            low = values[i]
+        }
+    }
+    return low
 }
+
+//attempt at finding a key by its value
+function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] == value);
+  }
+
+console.log(getKeyByValue(words, 1))
 
 console.log(words)
 
