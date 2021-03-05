@@ -6,6 +6,10 @@ console.log('connected...')
 //3. count instances of each unique word
 //4. output words and their amount of times that word appears
 
+//iterate through the array with all of our words in it (removeEmpty)
+//create name value pairs for new words with a starting value of 1
+//if a word is already in the object/array, increment its value by 1
+
 let xhr = new XMLHttpRequest();
 
 xhr.open('GET', 'https://class-demo-files-and-resources.s3.amazonaws.com/Green-Eggs-And-Ham.txt', true);
@@ -39,7 +43,7 @@ let parseResponse = function (input) {
         }
     }
     
-    //prints to the webpage
+    //adds text to the webpage
     document.getElementById('unique').innerHTML = `The Number of Unique Words in This Document is <strong>${Object.keys(words).length}</strong>.`
 
     document.getElementById('common').innerHTML = `The Most Frequently Occurring Word Occurs <strong>${maxValue(words)}</strong> times.`
@@ -53,7 +57,7 @@ xhr.onreadystatechange = function() {
     }
 };
 
-//splits string by spaces
+//splits string by spaces and puts them in an array
 function splitString (string) {
     let arr = string.split(" ")
     return arr
@@ -70,6 +74,7 @@ let maxValue = function (object) {
     }
     return high
 } 
+
 //finds min value
 let minValue = function (object) {
     let low = Number.MAX_VALUE
@@ -82,18 +87,34 @@ let minValue = function (object) {
     return low
 }
 
-//attempt at finding a key by its value
+//attempting to find a key by its value
 function getKeyByValue(object, value) {
-    return Object.keys(object).find(key => object[key] == value);
+    Object.keys(object).find(key => object[key] == value);
   }
 
-console.log(getKeyByValue(words, 1))
+//attempting to find the longest key
+function keyLength(object) {
+    let longest = ""
+    let keys = Object.keys(object)
+    for (i = 0; i<keys.length; i++) {
+        if (keys[i].length > longest.length){
+            longest = keys[i]
+        }
+    }
+    return longest
+}
+
+//not working, returns an empty array. neither function that uses this method works
+console.log(Object.keys(words))
+
+//also returns an empty array? but the 2 functions that use it (minValue and maxValue) work as intended
+console.log(Object.values(words))
+
+console.log(keyLength(words))
+
+//console.log(getKeyByValue(words, 1))
 
 console.log(words)
-
-//iterate through the array with all of our words in it (removeEmpty)
-//create name value pairs for new words with a starting value of 1
-//if a word is already in the object/array, increment its value by 1
 
 //need to return:
 //length of text (remove empty length)
